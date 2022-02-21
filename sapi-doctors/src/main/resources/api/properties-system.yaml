@@ -1,0 +1,13 @@
+listener:
+  http:
+    host: "0.0.0.0"
+    port: "8083"
+    
+db:
+  mysql:
+    host: "localhost"
+    port: "3306"
+    user: "root"
+    password: "julioar"
+    database: "hospital"
+

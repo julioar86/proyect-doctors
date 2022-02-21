@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <http:listener-config name="doctors-jaf-httpListenerConfig" basePath="/api">
+        <http:listener-connection host="${listener.http.host}" port="${listener.http.port}" />
+    </http:listener-config>
+    <apikit:config name="doctors-jaf-config" api="doctors-jaf.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" >
+	</apikit:config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="e58e56c7-c8bf-423e-88a1-33ad3c89cacb" basePath="/api" >
+		<http:request-connection host="${request.host}" port="${request.port}" />
+	</http:request-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="f69fe25e-bfb9-42fb-9042-d0e5365f24a6" file="api\properties-process.yaml" />
+
+</mule>

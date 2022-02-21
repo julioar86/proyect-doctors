@@ -1,0 +1,8 @@
+listener:
+  http:
+    host: "0.0.0.0"
+    port: "8082"
+    
+request:
+  host: "0.0.0.0"
+  port: "8083"

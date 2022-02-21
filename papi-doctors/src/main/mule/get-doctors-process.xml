@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <db:config name="Database_Config" doc:name="Database Config" doc:id="b6c47724-f6b6-4cea-a2bd-2b53f58524df" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="julioar" database="hospital" />
+	</db:config>
+	<flow name="get-doctors-process">
+		<http:request method="GET" doc:name="Request" doc:id="6f9fc739-b5e1-4f5e-b566-97197265a052" config-ref="HTTP_Request_configuration" path="/doctors">
+			<http:query-params ><![CDATA[#[{
+	minAge : attributes.queryParams."minAge",
+	maxAge : attributes.queryParams."maxAge"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map(value,index)->{
+	id: value.id,
+	fullname: value.fullname,
+	specialty: value.specialty,
+	mail: value.mail,
+	adress: value.adress,
+	country: value.country,
+	age: value.age	
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+</mule>
